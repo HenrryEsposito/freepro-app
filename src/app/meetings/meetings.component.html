@@ -1,10 +1,54 @@
-<p>
-  meetings works!
-</p>
-
-<div *ngFor="let meet of meetings">
-  Tema: {{ meet.theme }}
-  <br>
-  Local: {{ meet.place }}
-  <hr>
+<div class="form-inline"
+>
+  <div class="form-group mb-2">
+    <input
+    type="text"
+    class="form-control mr-2"
+    placeholder="type your search"
+    [(ngModel)]="searchString">    
+  </div>
 </div>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>
+        <button
+        class="btn btn-outline-primary"
+        (click)="toggleImg()">
+          Show Images
+        </button>
+      </th>
+      <th>Subject</th>
+      <th>Place</th>
+      <th>Date</th>
+      <th>Audience</th>
+      <th>Batch</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="meetings.length">
+    <tr *ngFor="let meeting of filteredMeetings">
+      <td>
+        <img *ngIf="showImages" src="http://localhost:5000/img/{{meeting.imgUrl}}" alt="meeting image"
+        [style.width.px] = "imgWidth"
+        [style.margin.px] = "imgMargin">
+      </td>
+      <td>{{ meeting.theme }}</td>
+      <td>{{ meeting.place }}</td>
+      <td>{{ meeting.date }}</td>
+      <td>{{ meeting.invited }}</td>
+      <td>{{ meeting.batch }}</td>
+      <td>
+        <button class="btn btn-success"></button>
+        <button class="btn btn-danger"></button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!meetings.length">
+    <tr>
+      <td colspan="7" class="text-center">
+        No meetings found.
+      </td>
+    </tr>
+  </tfoot>
+</table>

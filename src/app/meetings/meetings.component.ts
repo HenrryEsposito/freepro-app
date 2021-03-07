@@ -8,12 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MeetingsComponent implements OnInit {
 
-  meetings: any;
+  // tslint:disable-next-line: variable-name
+  _filteredMeetings: any = [];
+
+  searchString = '';
+  meetings: any = [];
+  imgWidth = 50;
+  imgMargin = 2;
+  showImages = false;
 
   constructor(private http: HttpClient) { }
 
+
+  get filteredMeetings(): any {
+    return this.meetings.filter(
+      (searchString: { theme: string; }) => searchString.theme.toLocaleLowerCase().indexOf(this.searchString) !== -1
+    );
+  }
+
   ngOnInit(): void {
     this.getMeetings();
+  }
+
+  toggleImg(): void {
+    this.showImages = !this.showImages;
   }
 
   getMeetings(): void {
