@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { Meeting } from './../_models/Meeting';
+import { MeetingService } from './../_services/Meeting.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,18 +10,19 @@ import { Component, OnInit } from '@angular/core';
 export class MeetingsComponent implements OnInit {
 
   // tslint:disable-next-line: variable-name
-  _filteredMeetings: any = [];
+  // tslint:disable-next-line: variable-name
+  _filteredMeetings!: Meeting[];
 
   searchString = '';
-  meetings: any = [];
+  meetings!: Meeting[];
   imgWidth = 50;
   imgMargin = 2;
   showImages = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private meetingService: MeetingService) { }
 
 
-  get filteredMeetings(): any {
+  get filteredMeetings(): Meeting[] {
     return this.meetings.filter(
       (searchString: { theme: string; }) => searchString.theme.toLocaleLowerCase().indexOf(this.searchString) !== -1
     );
@@ -35,8 +37,9 @@ export class MeetingsComponent implements OnInit {
   }
 
   getMeetings(): void {
-    this.meetings = this.http.get('http://localhost:5000/api/values').subscribe(response => {
-      this.meetings = response;
+    this.meetingService.getAllMeetings().subscribe(
+    (_meetings: Meeting[]) => {
+      this.meetings = _meetings;
     }, error => {
       console.log(error);
     });

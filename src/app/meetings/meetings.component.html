@@ -15,7 +15,7 @@
         <button
         class="btn btn-outline-primary"
         (click)="toggleImg()">
-          Show Images
+          <i class="{{!showImages ? 'fa fa-eye-slash' : 'fa fa-eye'}}"></i>
         </button>
       </th>
       <th>Subject</th>
@@ -37,7 +37,14 @@
       <td>{{ meeting.place }}</td>
       <td>{{ meeting.date }}</td>
       <td>{{ meeting.invited }}</td>
-      <td>{{ meeting.batch }}</td>
+      <td>
+        <div *ngIf="!meeting.batches.length">
+          NONE.
+        </div>
+        <div *ngIf="meeting.batches.length">
+          {{ meeting.batches[0].name | uppercase }}.
+        </div>
+      </td>
       <td>
         <button class="btn btn-success"></button>
         <button class="btn btn-danger"></button>

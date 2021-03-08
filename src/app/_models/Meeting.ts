@@ -6,7 +6,7 @@ import { SocialNetwork } from './SocialNetwork';
 export interface Meeting {
     id: number;
     place: string;
-    meetingDate: Date;
+    date: Date;
     theme: string;
     invited: number;
     phone: string;
