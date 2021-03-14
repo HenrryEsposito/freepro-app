@@ -1,6 +1,7 @@
 import { Meeting } from './../_models/Meeting';
 import { MeetingService } from './../_services/Meeting.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-meetings',
@@ -18,14 +19,21 @@ export class MeetingsComponent implements OnInit {
   imgWidth = 50;
   imgMargin = 2;
   showImages = false;
+  modalRef!: BsModalRef;
 
-  constructor(private meetingService: MeetingService) { }
-
+  constructor(
+    private meetingService: MeetingService,
+    private modalService: BsModalService
+  ) { }
 
   get filteredMeetings(): Meeting[] {
     return this.meetings.filter(
       (searchString: { theme: string; }) => searchString.theme.toLocaleLowerCase().indexOf(this.searchString) !== -1
     );
+  }
+
+  opensModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   ngOnInit(): void {
